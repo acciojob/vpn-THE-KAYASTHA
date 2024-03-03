@@ -35,15 +35,17 @@ public class ConnectionServiceImpl implements ConnectionService {
     @Override
     public User connect(int userId, String countryName) throws Exception{
 
-        User user=userRepository2.findById(userId).get();
+        User user = userRepository2.findById(userId).get();
+
         if(user.getMaskedIp()!=null){
             throw new Exception("Already connected");
         }
-
+        if(countryName.equalsIgnoreCase(user.getOriginalCountry().getCountryName().toString())){
+            return user;
+        }
         if(user.getServiceProviderList()==null){
             throw new Exception("Unable to connect");
         }
-
         List<ServiceProvider> serviceProviderList=user.getServiceProviderList();
         int x=Integer.MAX_VALUE;
         ServiceProvider serviceProvider=null;
