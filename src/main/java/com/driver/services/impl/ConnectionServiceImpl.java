@@ -83,12 +83,12 @@ public class ConnectionServiceImpl implements ConnectionService {
         //Else, disconnect from vpn, make masked Ip as null, update relevant attributes and return updated user.
         User user=userRepository2.findById(userId).get();
 
-        if(user.getConnected()==Boolean.FALSE){
+        if(!user.getConnected()){
             throw new Exception("Already disconnected");
         }
-        user.setConnected(Boolean.FALSE);
         user.setMaskedIp(null);
-        user=userRepository2.save(user);
+        user.setConnected(false);
+        userRepository2.save(user);
         return user;
 
     }
