@@ -12,6 +12,9 @@ public class Connection {
     @JoinColumn
     private User user;
 
+    public Connection(){
+
+    }
     @ManyToOne
     @JoinColumn
     private ServiceProvider serviceProvider;
