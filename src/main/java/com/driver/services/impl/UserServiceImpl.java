@@ -31,28 +31,28 @@ public class UserServiceImpl implements UserService {
         user.setMaskedIp(null);
 
         String upperCaseString = countryName.toUpperCase();
-      Country countryName1 =  countryRepository3.findCountryByCountryName(countryName);
+      CountryName countryName1 =  findCountryByName(countryName);
 
         if(countryName1==null){
             throw new Exception("Country not found");
         }
 
-      /*  Country country=new Country();
+        Country country=new Country();
         country.setCountryName(countryName1);
         country.setCode(countryName1.toCode());
-        */
-        user.setOriginalCountry(countryName1);
 
-        String ip=countryName1.getCode()+"."+user.getId();
+        user.setOriginalCountry(country);
+        country.setUser(user);
+        String ip=country.getCode()+"."+user.getId();
         user.setOriginalIp(ip);
-        countryName1.setUser(user);
+
         user=userRepository3.save(user);
 
         return user;
     }
     public   CountryName findCountryByName(String name) {
         for (CountryName country : CountryName.values()) {
-            if (country.name().equals(name)) {
+            if (country.toString().equals(name)) {
                 return country;
             }
         }
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
         user.getServiceProviderList().add(serviceProvider);
         serviceProvider.getUsers().add(user);
 
-        user=userRepository3.save(user);
+        serviceProviderRepository3.save(serviceProvider);
         return user;
 
     }

@@ -33,9 +33,11 @@ public class AdminServiceImpl implements AdminService {
     public Admin addServiceProvider(int adminId, String providerName) {
 
         Admin admin=adminRepository1.findById(adminId).get();
-        ServiceProvider serviceProvider=serviceProviderRepository1.findServiceProviderByName(providerName);
-        admin.getServiceProviders().add(serviceProvider);
+       ServiceProvider serviceProvider=new ServiceProvider();
+        serviceProvider.setName(providerName);
         serviceProvider.setAdmin(admin);
+        admin.getServiceProviders().add(serviceProvider);
+
         admin=adminRepository1.save(admin);
         return admin;
     }
@@ -53,17 +55,17 @@ public class AdminServiceImpl implements AdminService {
         country.setCountryName(countryName1);
         country.setCode(countryName1.toCode());
         ServiceProvider serviceProvider=serviceProviderRepository1.findById(serviceProviderId).get();
-
-        serviceProvider.getCountryList().add(country);
         country.setServiceProvider(serviceProvider);
-        countryRepository1.save(country);
+        serviceProvider.getCountryList().add(country);
+
+        serviceProviderRepository1.save(serviceProvider);
         return serviceProvider;
 
     }
 
     public   CountryName findCountryByName(String name) {
         for (CountryName country : CountryName.values()) {
-            if (country.name().equals(name)) {
+            if (country.toString().equals(name)) {
                 return country;
             }
         }
