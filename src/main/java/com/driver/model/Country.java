@@ -1,7 +1,7 @@
 package com.driver.model;
 
-import org.hibernate.annotations.Generated;
-import sun.util.resources.Bundles;
+
+
 
 import javax.persistence.*;
 
